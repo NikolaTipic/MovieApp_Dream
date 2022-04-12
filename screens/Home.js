@@ -6,14 +6,18 @@ import Styles from "../components/styles";
 import TrendingPeople from "../components/TrendingPeople";
 import TrendingMovies from "../components/TrendingMovies";
 
-const Home = () => {
+const Home = ({navigation}) => {
 
     return (
         <>
             <StatusBar style="light"/>
             <View style={Styles.sectionBg}>
                 <DiscoverMovies />
-                <TrendingPeople />
+                <TrendingPeople 
+                    title = "Popular Actors" 
+                    url = "/trending/person/week"
+                    isForModal = "popularp"
+                />
                 <TrendingMovies />
             </View>
         </>

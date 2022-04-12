@@ -5,16 +5,16 @@ import Constants from "./Constants";
 import { IMAGE_POSTER_URL } from "./config";
 import Styles from "./styles";
 
-const TrendingPeople = () => {
+const TrendingPeople = ({title, url, isForModal}) => {
 
     const [loading, setLoading] = useState(true);
     const [people, setPeople] = useState([]);
 
     useEffect(() => {
         const getPeople = async () => {
-            const data = await GET("/trending/person/week");
+            const data = await GET(url);
 
-            setPeople(data.results);
+            setPeople(isForModal === "modal" ? data.cast : data.results);
             setLoading(false);
         };
 
@@ -27,7 +27,7 @@ const TrendingPeople = () => {
                 loading ? <ActivityIndicator size="large" color={Constants.textColor} /> 
                     :
                 <View>
-                    <Text style={Styles.heading}>Popular Actors</Text>
+                    <Text style={Styles.heading}>{title}</Text>
                     <FlatList 
                     keyExtractor = {item => item.id}
                     data = {people}
