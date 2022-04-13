@@ -10,14 +10,14 @@ const TrendingPeople = ({title, url, isForModal}) => {
     const [loading, setLoading] = useState(true);
     const [people, setPeople] = useState([]);
 
+    const getPeople = async () => {
+        const data = await GET(url);
+
+        setPeople(isForModal === "modal" ? data.cast : data.results);
+        setLoading(false);
+    };
+
     useEffect(() => {
-        const getPeople = async () => {
-            const data = await GET(url);
-
-            setPeople(isForModal === "modal" ? data.cast : data.results);
-            setLoading(false);
-        };
-
         getPeople();
     }, [])
 

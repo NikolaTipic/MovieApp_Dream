@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { View, Text, TextInput, ScrollView, Image, TouchableOpacity, Modal, Button, FlatList} from "react-native";
+import { View, Text, TextInput, ScrollView, Image, TouchableOpacity, Modal, Button, FlatList, Share} from "react-native";
 import { StatusBar } from "expo-status-bar";
 import Styles from "../components/styles";
 import { GET, GETsearch } from "../services/API";
@@ -85,6 +85,25 @@ const Search = ({navigation}) => {
             </TouchableOpacity>
         )
     }
+
+    const onShare = async (imdb_id) => {
+        try {
+        const result = await Share.share({
+            message: `https://www.imdb.com/title/${imdb_id}`,
+        });
+        if (result.action === Share.sharedAction) {
+            if (result.activityType) {
+            // shared with activity type of result.activityType
+            } else {
+            // shared
+            }
+        } else if (result.action === Share.dismissedAction) {
+            // dismissed
+        }
+        } catch (error) {
+        alert(error.message);
+        }
+    };
 
     const options = [
         { label: "Movies", value: "movies" },

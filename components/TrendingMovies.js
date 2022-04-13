@@ -59,7 +59,7 @@ const TrendingMovies = () => {
     }
 
     const _storeData = async (fetchedData, page_number) => {
-        console.log(`_storeData start: ${page_number}`);
+        //console.log(`_storeData start: ${page_number}`);
         
         const data = await AsyncStorage.getItem(TOP_RATED_MOVIES_KEY);
         let _jsonData = JSON.parse(data);
@@ -70,21 +70,16 @@ const TrendingMovies = () => {
         _jsonData.results = _jsonData.results.concat(fetchedData.results);
         _jsonData.maxPage = fetchedData.page;
         
-        console.log(`_storeData mid: ${page_number}`);
+        //console.log(`_storeData mid: ${page_number}`);
 
         await AsyncStorage.setItem(TOP_RATED_MOVIES_KEY, JSON.stringify(_jsonData));
 
-        console.log(`_storeData end: ${page_number}`);
+        //console.log(`_storeData end: ${page_number}`);
     }
 
     const clearStorage = async () => {
         await AsyncStorage.removeItem(TOP_RATED_MOVIES_KEY);
     }
-
-    useEffect(() => {
-        clearStorage();
-        getMovies();
-    }, []);
 
 
     const openModalTopRatedMovie = async (id) => {
@@ -97,19 +92,6 @@ const TrendingMovies = () => {
             return { ...prevState, selectedDetails: details, selectedCredits: slice}
         })
     }
-
-    // TODO: kad user klikne na tab 2 prominit state sa novih 20
-
-    /*
-        1. prikazat stranice
-        2. napisati brojeve do 13, kad se klikne na jedan od tih brojeva pozvati iz baze 
-            imas page number, 
-            dohvati results,
-            dohvatit sta mi triba iz results ( filmovi od page_number * 20 - (page_number+1) * 20) array. slice
-        3. set state na dohvacene resultove
-        4. (optional) set number of selcted page.
-    */
-
 
     const displayMovies = ({ item }) => {
         return (
@@ -147,15 +129,15 @@ const TrendingMovies = () => {
 
     const getPagMovies = async (pageNum) => {
 
-        console.log(pageNum);
+        //console.log(pageNum);
 
         const data = await AsyncStorage.getItem(TOP_RATED_MOVIES_KEY);
         let _jsonData = JSON.parse(data);
 
-        console.log(_jsonData.results.length)
+        //console.log(_jsonData.results.length)
         const sliceData = _jsonData.results.slice((pageNum-1) * 20, (pageNum * 20));
 
-        console.log(sliceData);
+        //console.log(sliceData);
 
         setMovieState(prevState => {
             return {...prevState, results: sliceData}
@@ -182,6 +164,10 @@ const TrendingMovies = () => {
         }
     };
 
+    useEffect(() => {
+        clearStorage();
+        getMovies();
+    }, []);
 
 
     return (
